@@ -52,14 +52,10 @@ class CustomDynamicObjects {
 		$this->objectTypes[] = $newObject;
 	}
 
-	private function getObjectTypeJsons() {
-		return $this->objectTypeJsons;
-	}
-
-	public function setObjectTypeJsons($newValues) {
-		$this->objectTypeJsons = $newValues;
-	}
-
+	/**
+	 * @description Retruns an array of all object types. Create array if not already exists
+	 * @return {Array}
+	 */
 	private function getObjectTypes() {
 		if(empty($this->objectTypes)){
 			$this->loadObjects();
@@ -67,11 +63,18 @@ class CustomDynamicObjects {
 		return $this->objectTypes;
 	}
 
+	/**
+	 * @description Trigger loading of all object jsons
+	 */
 	private function loadObjects(){
 		$cFileList = $this->getObjectJsons();
 		$this->loadObjectTypesByNames($cFileList);
 	}
 
+	/**
+	 * @description Load all objects by name from given list
+	 * @param  {Array} $names containing list of objects to load
+	 */
 	public function loadObjectTypesByNames($names) {
 		$_path = $this->getJsonPath();
 		foreach ($names as $fileName) {
@@ -83,11 +86,21 @@ class CustomDynamicObjects {
 		}
 	}
 
+	/**
+	 * @description Extract file name from given path
+	 * @param  {String} $path
+	 * @return {String} name of file
+	 */
 	private function getFileNameFromPath($path) {
 		$pathArr = explode('/', $path);
 		return end($pathArr);
 	}
 
+	/**
+	 * @description Extract backend name from given object data.
+	 * @param  {Array} $objectData array of data from config json
+	 * @return {String} name to use
+	 */
 	private function getObjectLabel($objectData) {
 		if (array_key_exists('label', $objectData)) {
 			return $objectData['label'];
@@ -98,6 +111,10 @@ class CustomDynamicObjects {
 		return $this->getFileNameFromPath($objectData['file']);
 	}
 
+	/**
+	 * @description Creates markup for backend meta box
+	 * @return {String} html for meta box
+	 */
 	public function customDynamicObjectsMetaBox() {
 		$html = '<ul>';
 		foreach ($this->getObjectTypes() as $objectType) {
@@ -109,6 +126,9 @@ class CustomDynamicObjects {
 		echo $html;
 	}
 
+	/**
+	 * @description Adds meta box to wp backend
+	 */
 	public function addingObjectTypeMetaBox() {
 		add_meta_box(
 			'custom_dynamic_objects',
