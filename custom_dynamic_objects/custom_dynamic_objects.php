@@ -14,9 +14,7 @@ Author URI:
 
 class CustomDynamicObjects {
 
-	protected $objectTypeJsons = [];
 	protected $objectTypes;
-	protected $fileSystem;
 	protected $options = [];
 
 	/**
