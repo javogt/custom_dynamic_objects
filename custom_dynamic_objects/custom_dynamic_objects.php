@@ -24,6 +24,7 @@ class CustomDynamicObjects {
 	 */
 	public function __construct() {
 		$this->options['jsonsPath'] = __DIR__ . '/objects';
+		add_action('add_meta_boxes', array($this, 'addingObjectTypeMetaBox'));
 	}
 
 	/**
@@ -143,54 +144,44 @@ class CustomDynamicObjects {
 
 }
 
-require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+// global $wpdb;
 
-class CustomDynamicObjectDatabase{
+// require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	private $db;
+// class CustomDynamicObjectDatabase{
 
-	public function __construct($db){
-		$this->db = $db;
-	}
+// 	private $db;
 
-	private function wpPrefix(){
-		return $this->db->prefix;
-	}
+// 	public function __construct($db){
+// 		$this->db = $db;
+// 	}
 
-	private function query($query){
-		if($this->db){
-			$this->db->query($query);
-		}
-	}
+// 	private function wpPrefix(){
+// 		return $this->db->prefix;
+// 	}
 
-	public function tableQueryFromJson($json){
+// 	private function query($query){
+// 		if($this->db){
+// 			$this->db->query($query);
+// 		}
+// 	}
 
-	}
+// 	public function tableQueryFromJson($json){
 
-}
+// 	}
 
+// }
 
-class CustomDynamicObjectFileSystem {
-
-	
-
-}
-
-global $wpdb;
-// $cdo_Database = new CustomDynamicObjectDatabase($wpdb);
-$cdo_FileSystem = new CustomDynamicObjectFileSystem($cdo_config['jsonsPath']);
-$cdo_Admin = new CustomDynamicObjects($cdo_FileSystem);
+$cdo = new CustomDynamicObjects();
 
 
-function activate_custom_dynamic_objects() {
+// function activate_custom_dynamic_objects() {
 
-};
+// };
 
-add_action(
-	'activate_custom_dynamic_objects/custom_dynamic_objects.php',
-	'activate_custom_dynamic_objects'
-);
-
-add_action('add_meta_boxes', array($cdo_Admin, 'addingObjectTypeMetaBox'));
+// add_action(
+// 	'activate_custom_dynamic_objects/custom_dynamic_objects.php',
+// 	'activate_custom_dynamic_objects'
+// );
 
 ?>
