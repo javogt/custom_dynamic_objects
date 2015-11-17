@@ -1,0 +1,9 @@
+{
+	"name":"mediaObject",
+	"tableName":"media",
+	"data":[
+		"super",
+		"important",
+		"data"
+	]
+}

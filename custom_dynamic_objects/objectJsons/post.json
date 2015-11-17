@@ -1,0 +1,13 @@
+{
+	"name":"this_post_object",
+	"label":"Backend Name",
+	"tableName":"posts",
+	"columns":[
+		{
+			"backendLabel":"Title",
+			"columnName":"title",
+			"dataType":"varchar",
+			"size":255
+		}
+	]
+}
