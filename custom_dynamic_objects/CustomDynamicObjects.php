@@ -4,13 +4,13 @@ class CustomDynamicObjects {
 
 	protected $objectTypes;
 	protected $options = [];
-	protected $wpConector;
+	protected $wpConnector;
 
 	/**
 	 * @description Set options
 	 */
-	public function __construct($Conector) {
-		$this->wpConector = $Conector;
+	public function __construct($connector) {
+		$this->wpConnector = $connector;
 		$this->options['jsonsPath'] = __DIR__ . '/objects';
 	}
 
@@ -118,7 +118,7 @@ class CustomDynamicObjects {
 	 * @description Adds meta box to wp backend
 	 */
 	public function addingObjectTypeMetaBox() {
-		$this->wpConector->add_meta_box(
+		$this->wpConnector->add_meta_box(
 			'custom_dynamic_objects',
 			'Object Type',
 			array($this, 'customDynamicObjectsMetaBox'),
@@ -130,7 +130,7 @@ class CustomDynamicObjects {
 	}
 
 	public function createBackend(){
-		$this->wpConector->add_action('add_meta_boxes', array($this, 'addingObjectTypeMetaBox'));
+		$this->wpConnector->add_action('add_meta_boxes', array($this, 'addingObjectTypeMetaBox'));
 	}
 
 }
