@@ -13,8 +13,10 @@ Author URI:
 
 require_once('vendor/autoload.php');
 
-$cdo = new CustomDynamicObjects('add_action', 'hey');
-$cdo->createBackend('add_action');
+use CustomDynamicObjectsWordpressConnector as Connector;
+
+$cdo = new CustomDynamicObjects(new Connector());
+$cdo->createBackend();
 
 // global $wpdb;
 
