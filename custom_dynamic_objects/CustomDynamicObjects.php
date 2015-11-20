@@ -117,8 +117,8 @@ class CustomDynamicObjects {
 	/**
 	 * @description Adds meta box to wp backend
 	 */
-	public function addingObjectTypeMetaBox($add_meta_box) {
-		add_meta_box(
+	public function addingObjectTypeMetaBox() {
+		$this->wpConector->add_meta_box(
 			'custom_dynamic_objects',
 			'Object Type',
 			array($this, 'customDynamicObjectsMetaBox'),
