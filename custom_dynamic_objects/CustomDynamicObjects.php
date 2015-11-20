@@ -2,76 +2,15 @@
 
 class CustomDynamicObjects {
 
-	protected $objectTypes;
-	protected $options = [];
 	protected $wpConnector;
+	protected $jsons;
 
 	/**
 	 * @description Set options
 	 */
-	public function __construct($connector) {
+	public function __construct($connector, $jsons) {
 		$this->wpConnector = $connector;
-		$this->options['jsonsPath'] = __DIR__ . '/objects';
-	}
-
-	/**
-	 * @description Returns path to object jsons
-	 * @return {String}
-	 */
-	public function getJsonPath() {
-		return $this->options['jsonsPath'];
-	}
-
-	/**
-	 * @description Returns an array with paths to all config jsons
-	 * @return {Array}
-	 */
-	public function getObjectJsons() {
-		return array_filter(scandir($this->getJsonPath()), function ($name) {
-			return !($name == '.' || $name == '..');
-		});
-	}
-
-	/**
-	 * @description Adds new object type to class object types
-	 * @param {Object}
-	 */
-	private function addObjectType($newObject) {
-		$this->objectTypes[] = $newObject;
-	}
-
-	/**
-	 * @description Retruns an array of all object types. Create array if not already exists
-	 * @return {Array}
-	 */
-	private function getObjectTypes() {
-		if(empty($this->objectTypes)){
-			$this->loadObjects();
-		}
-		return $this->objectTypes;
-	}
-
-	/**
-	 * @description Trigger loading of all object jsons
-	 */
-	private function loadObjects(){
-		$cFileList = $this->getObjectJsons();
-		$this->loadObjectTypesByNames($cFileList);
-	}
-
-	/**
-	 * @description Load all objects by name from given list
-	 * @param  {Array} $names containing list of objects to load
-	 */
-	public function loadObjectTypesByNames($names) {
-		$_path = $this->getJsonPath();
-		foreach ($names as $fileName) {
-			$_file = $_path . '/' . $fileName;
-			$_jsonString = file_get_contents($_file);
-			$_jsonData = json_decode($_jsonString, true);
-			$_jsonData['file'] = $_file;
-			$this->addObjectType($_jsonData);
-		}
+		$this->jsons = $jsons;
 	}
 
 	/**
@@ -105,7 +44,7 @@ class CustomDynamicObjects {
 	 */
 	public function customDynamicObjectsMetaBox() {
 		$html = '<ul>';
-		foreach ($this->getObjectTypes() as $objectType) {
+		foreach ($this->jsons->getObjectTypes() as $objectType) {
 			$html .= '<li>';
 			$html .= $this->getObjectLabel($objectType);
 			$html .= '</li>';
