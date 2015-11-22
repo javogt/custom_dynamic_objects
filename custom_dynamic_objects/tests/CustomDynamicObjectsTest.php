@@ -1,48 +1,46 @@
 <?php
 
-class StupidTest extends \PHPUnit_Framework_TestCase
+class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 {
- 
-	public function testCreateBackendCallsAddActionWithMetyBoxAndHtmlClassMethod(){
 
-		$jsonsMock = $this->getMockBuilder('CustomDynamicObjectsJsons')
+	protected $customDynamicObjects;
+
+	protected $jsonsMock;
+	protected $wpConnectorMock;
+
+	public function setUp(){
+		$this->jsonsMock = $this->getMockBuilder('CustomDynamicObjectsJsons')
 			->setConstructorArgs(array('test'))
 			->getMock();
 
-		$wpConnectorMock = $this->getMockBuilder('CustomDynamicObjectsWordpressConnector')
-		 	->setMethods(array('add_action'))
+		$this->wpConnectorMock = $this->getMockBuilder('CustomDynamicObjectsWordpressConnector')
+		 	->setMethods(array('add_action', 'add_meta_box'))
 			->getMock();
 
-		$customDynamicObjects = new CustomDynamicObjects($wpConnectorMock, $jsonsMock);
+		$this->customDynamicObjects = new CustomDynamicObjects($this->wpConnectorMock, $this->jsonsMock);
 
-		$wpConnectorMock->expects($this->once())
+	}
+ 
+	public function testCreateBackendCallsAddActionWithMetaBoxAndHtmlClassMethod(){
+
+		$this->wpConnectorMock->expects($this->once())
             ->method('add_action')
             ->with(
             	$this->equalTo('add_meta_boxes'),
-            	$this->equalTo(array($customDynamicObjects, 'addingObjectTypeMetaBox'))
+            	$this->equalTo(array($this->customDynamicObjects, 'addingObjectTypeMetaBox'))
         	);
 	
-		$customDynamicObjects->createBackend();	
+		$this->customDynamicObjects->createBackend();	
 	}
 
 	public function testAddingObjectTypeMetaBoxCallsAddMetaBox(){
 
-		$jsonsMock = $this->getMockBuilder('CustomDynamicObjectsJsons')
-			->setConstructorArgs(array('test'))
-			->getMock();
-
-		$wpConnectorMock = $this->getMockBuilder('CustomDynamicObjectsWordpressConnector')
-		 	->setMethods(array('add_meta_box'))
-			->getMock();
-
-		$customDynamicObjects = new CustomDynamicObjects($wpConnectorMock, $jsonsMock);
-
-		$wpConnectorMock->expects($this->once())
+		$this->wpConnectorMock->expects($this->once())
             ->method('add_meta_box')
             ->with(
             	$this->equalTo('custom_dynamic_objects'),
             	$this->equalTo('Object Type'),
-            	$this->equalTo(array($customDynamicObjects, 'customDynamicObjectsMetaBox')),
+            	$this->equalTo(array($this->customDynamicObjects, 'customDynamicObjectsMetaBox')),
             	$this->equalTo('post'),
             	$this->equalTo('side'),
             	$this->equalTo('high'),
@@ -50,7 +48,7 @@ class StupidTest extends \PHPUnit_Framework_TestCase
 
         	);
 	
-		$customDynamicObjects->addingObjectTypeMetaBox();	
+		$this->customDynamicObjects->addingObjectTypeMetaBox();	
 
 	}
 
