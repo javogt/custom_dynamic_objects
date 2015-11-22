@@ -71,4 +71,23 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 		$this->customDynamicObjects->customDynamicObjectsMetaBox();	
 	}
 
+	public function testCustomDynamicObjectsMetaBoxCreatesHtmlListOfObjects(){
+
+		$this->jsonsMock->expects($this->once())
+			->method('getObjectTypes')
+			->will(
+				$this->returnValue(
+					array(
+						array('file' => 'media.json'), 
+						array('file' => 'foo.json'), 
+						array('file' => 'test.json')
+					)
+				)
+			);
+
+		$this->expectOutputString('<ul><li>media.json</li><li>foo.json</li><li>test.json</li></ul>');
+
+		$this->customDynamicObjects->customDynamicObjectsMetaBox();	
+	}
+
 }
