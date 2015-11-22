@@ -59,6 +59,31 @@ class CustomDynamicObjectsJsons {
 	}
 
 	/**
+	 * @description Extract file name from given path
+	 * @param  {String} $path
+	 * @return {String} name of file
+	 */
+	private function getFileNameFromPath($path) {
+		$pathArr = explode('/', $path);
+		return end($pathArr);
+	}
+
+	/**
+	 * @description Extract backend name from given object data.
+	 * @param  {Array} $objectData array of data from config json
+	 * @return {String} name to use
+	 */
+	public function getObjectLabel($objectData) {
+		if (array_key_exists('label', $objectData)) {
+			return $objectData['label'];
+		}
+		if (array_key_exists('name', $objectData)) {
+			return $objectData['name'];
+		}
+		return $this->getFileNameFromPath($objectData['file']);
+	}
+
+	/**
 	 * @description Retruns an array of all object types. Create array if not already exists
 	 * @return {Array}
 	 */
