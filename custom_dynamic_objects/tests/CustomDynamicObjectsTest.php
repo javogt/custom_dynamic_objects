@@ -11,6 +11,7 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 	public function setUp(){
 		$this->jsonsMock = $this->getMockBuilder('CustomDynamicObjectsJsons')
 			->setConstructorArgs(array('test'))
+			->setMethods(array('getObjectTypes'))
 			->getMock();
 
 		$this->wpConnectorMock = $this->getMockBuilder('CustomDynamicObjectsWordpressConnector')
@@ -50,6 +51,24 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 	
 		$this->customDynamicObjects->addingObjectTypeMetaBox();	
 
+	}
+
+	public function testCustomDynamicObjectsMetaBoxReturnsEmptyUlOnNoObject(){
+
+		$this->jsonsMock->expects($this->once())
+			->method('getObjectTypes')
+			->will($this->returnValue(array()));
+
+		$this->customDynamicObjects->customDynamicObjectsMetaBox();	
+	}
+
+	public function testCustomDynamicObjectsMetaBoxWillNotBreakOnNull(){
+
+		$this->jsonsMock->expects($this->once())
+			->method('getObjectTypes')
+			->will($this->returnValue(null));
+
+		$this->customDynamicObjects->customDynamicObjectsMetaBox();	
 	}
 
 }

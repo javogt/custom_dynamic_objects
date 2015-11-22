@@ -18,15 +18,17 @@ class CustomDynamicObjects {
 	 * @return {String} html for meta box
 	 */
 	public function customDynamicObjectsMetaBox() {
-		print_r($this->jsons->getObjectTypes());
-		$html = '<ul>';
-		foreach ($this->jsons->getObjectTypes() as $objectType) {
-			$html .= '<li>';
-			$html .= $this->jsons->getObjectLabel($objectType);
-			$html .= '</li>';
+		$objectTypes = $this->jsons->getObjectTypes();
+		if(!empty($objectTypes)){
+			$html = '<ul>';
+			foreach ($objectTypes as $objectType) {
+				$html .= '<li>';
+				$html .= $this->jsons->getObjectLabel($objectType);
+				$html .= '</li>';
+			}
+			$html .= '</ul>';
+			echo $html;
 		}
-		$html .= '</ul>';
-		echo $html;
 	}
 
 	/**
