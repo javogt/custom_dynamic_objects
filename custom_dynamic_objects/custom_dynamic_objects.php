@@ -13,10 +13,14 @@ Author URI:
 
 require_once('vendor/autoload.php');
 
-use CustomDynamicObjectsWordpressConnector as Connector;
-use CustomDynamicObjectsJsons as Jsons;
+use CustomDynamicObjects\WordpressConnector as WordpressConnector;
+use CustomDynamicObjects\Jsons as Jsons;
 
-$customDynamicObjects = new CustomDynamicObjects(new Connector(), new Jsons(__DIR__ . '/objects'));
+$customDynamicObjects = new CustomDynamicObjects(
+		new WordpressConnector(), 
+		new Jsons(__DIR__ . '/objects')
+	);
+
 $customDynamicObjects->createBackend();
 
 // global $wpdb;

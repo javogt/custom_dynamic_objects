@@ -9,12 +9,12 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 	protected $wpConnectorMock;
 
 	public function setUp(){
-		$this->jsonsMock = $this->getMockBuilder('CustomDynamicObjectsJsons')
+		$this->jsonsMock = $this->getMockBuilder('CustomDynamicObjects\Jsons')
 			->setConstructorArgs(array('test'))
 			->setMethods(array('getObjectTypes'))
 			->getMock();
 
-		$this->wpConnectorMock = $this->getMockBuilder('CustomDynamicObjectsWordpressConnector')
+		$this->wpConnectorMock = $this->getMockBuilder('CustomDynamicObjects\WordpressConnector')
 		 	->setMethods(array('add_action', 'add_meta_box'))
 			->getMock();
 

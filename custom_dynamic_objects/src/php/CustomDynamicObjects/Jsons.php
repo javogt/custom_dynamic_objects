@@ -1,6 +1,8 @@
 <?php
 
-class CustomDynamicObjectsJsons {
+namespace CustomDynamicObjects;
+
+class Jsons {
 
 	protected $jsonsPath;
 
