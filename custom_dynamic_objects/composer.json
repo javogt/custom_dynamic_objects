@@ -6,5 +6,8 @@
         "psr-0": {
             "CustomDynamicObjects": "src/php/"
         }
+    },
+    "require-dev": {
+        "unit-testing/function-spy": "dev-master"
     }
 }
