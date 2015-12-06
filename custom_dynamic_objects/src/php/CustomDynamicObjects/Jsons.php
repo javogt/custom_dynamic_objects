@@ -27,6 +27,7 @@ class Jsons {
 	/**
 	 * @description Returns an array with paths to all config jsons
 	 * @return {Array}
+	 * @TODO Fire backend notice
 	 */
 	private function getObjectJsons() {
 		$path = $this->getJsonPath();
