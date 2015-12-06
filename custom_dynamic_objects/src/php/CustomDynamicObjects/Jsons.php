@@ -16,18 +16,27 @@ class Jsons {
 	 * @description Returns path to object jsons
 	 * @return {String}
 	 */
-	public function getJsonPath() {
+	private function getJsonPath() {
 		return $this->jsonsPath;
+	}
+
+	private function isJsonFile($filename){
+		return strpos($filename, '.json') !== false;
 	}
 
 	/**
 	 * @description Returns an array with paths to all config jsons
 	 * @return {Array}
 	 */
-	public function getObjectJsons() {
-		return array_filter(scandir($this->getJsonPath()), function ($name) {
-			return !($name == '.' || $name == '..');
-		});
+	private function getObjectJsons() {
+		$path = $this->getJsonPath();
+		if(file_exists($path)){
+			return array_filter(scandir($path), function ($name) {
+				return $this->isJsonFile($name);
+			});
+		} else {
+			return [];
+		}
 	}
 	/**
 	 * @description Trigger loading of all object jsons
@@ -49,7 +58,7 @@ class Jsons {
 	 * @description Load all objects by name from given list
 	 * @param  {Array} $names containing list of objects to load
 	 */
-	public function loadObjectTypesByNames($names) {
+	private function loadObjectTypesByNames($names) {
 		$_path = $this->getJsonPath();
 		foreach ($names as $fileName) {
 			$_file = $_path . '/' . $fileName;

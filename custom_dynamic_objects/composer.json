@@ -1,13 +1,11 @@
 {
-    "require": {
-        "phpunit/phpunit": "4.6.*"
+    "require-dev": {
+        "phpunit/phpunit": "4.6.*",
+        "unit-testing/function-spy": "dev-master"
     },
-     "autoload": {
+    "autoload": {
         "psr-0": {
             "CustomDynamicObjects": "src/php/"
         }
-    },
-    "require-dev": {
-        "unit-testing/function-spy": "dev-master"
     }
 }

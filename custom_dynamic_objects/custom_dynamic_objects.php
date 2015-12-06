@@ -13,8 +13,8 @@ Author URI:
 
 require_once('vendor/autoload.php');
 
-use CustomDynamicObjects\WordpressConnector as WordpressConnector;
-use CustomDynamicObjects\Jsons as Jsons;
+use CustomDynamicObjects\WordpressConnector;
+use CustomDynamicObjects\Jsons;
 
 $customDynamicObjects = new CustomDynamicObjects(
 		new WordpressConnector(), 

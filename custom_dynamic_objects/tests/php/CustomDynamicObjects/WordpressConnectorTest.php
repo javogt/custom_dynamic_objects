@@ -1,6 +1,6 @@
 <?php
 
-use CustomDynamicObjects\WordpressConnector as WordpressConnector;
+use CustomDynamicObjects\WordpressConnector;
 
 function add_action(){
 	\UnitTesting\FunctionSpy\Spy::add_action();
