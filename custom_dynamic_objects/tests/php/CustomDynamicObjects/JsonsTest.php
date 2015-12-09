@@ -36,13 +36,22 @@ namespace CustomDynamicObjects {
 			$this->assertNull($result);
 		}
 
-		public function testGetObjectTypesReturnsArrayOfAllFiles(){
+		public function returnsDirsAndFileArrays(){
+			return [
+				'one file' => [['hey.json'], [['file' => 'existing/path/hey.json']]]
+			];
+		}
+
+		/**
+		 * @dataProvider returnsDirsAndFileArrays
+		 */
+		public function testGetObjectTypesReturnsArrayOfAllFiles($dir, $expected){
 			global $fileExistsMockReturn, $scandirMockReturn;
 			$fileExistsMockReturn = true;
-			$scandirMockReturn = ['hey.json'];
-			$jsons = new Jsons('existing\path');
+			$scandirMockReturn = $dir;
+			$jsons = new Jsons('existing/path');
 			$result = $jsons->getObjectTypes();
-			print_r($result);
+			$this->assertEquals($expected, $result);
 		}
 
 	}
