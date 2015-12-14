@@ -75,9 +75,9 @@ class Jsons {
 	 * @param  {String} $path
 	 * @return {String} name of file
 	 */
-	private function getFileNameFromPath($path) {
+	public function getFileNameFromPath($path) {
 		$pathArr = explode('/', $path);
-		return end($pathArr);
+		return str_replace('.json', '', end($pathArr));
 	}
 
 	/**

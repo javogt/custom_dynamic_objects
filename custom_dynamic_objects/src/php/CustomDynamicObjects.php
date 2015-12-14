@@ -1,16 +1,24 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
+
 class CustomDynamicObjects {
 
 	protected $wpConnector;
 	protected $jsons;
+	protected $capsule;
+
+	protected $options = [
+		'tablePrefix' => 'customDynamicObjects_'
+	];
 
 	/**
 	 * @description Set options
 	 */
-	public function __construct($connector, $jsons) {
+	public function __construct($connector, $jsons, $capsule) {
 		$this->wpConnector = $connector;
 		$this->jsons = $jsons;
+		$this->capsule = $capsule;
 	}
 
 	/**
@@ -51,6 +59,37 @@ class CustomDynamicObjects {
 	 */
 	public function createBackend(){
 		$this->wpConnector->add_action('add_meta_boxes', array($this, 'addingObjectTypeMetaBox'));
+	}
+
+	/**
+	 * @description Creates table name to given objectType
+	 * @param  {Array} $objectType
+	 * @return {String}
+	 */
+	private function getTableNameByObjectType($objectType){
+		$fileName = $this->jsons->getFileNameFromPath($objectType['file']);
+		return $this->options['tablePrefix'] . $fileName;
+	}
+
+	/**
+	 * @description Creates table for given objectType
+	 * @param  {Array} $objectType
+	 */
+	private function createTableByObjectType($objectType){
+		$tableName = $this->getTableNameByObjectType($objectType);
+		$callBack = function(){};
+		$this->capsule->schema()->create($tableName, $callBack);
+	}
+
+	/**
+	 * @description Creates tables for all objectTypes
+	 */
+	public function migrate(){
+		$objectTypes = $this->jsons->getObjectTypes();
+		//$this->capsule->schema()->dropIfExists('testyfy');
+		foreach ($objectTypes as $objectType) {
+			$this->createTableByObjectType($objectType);
+		}
 	}
 
 }
