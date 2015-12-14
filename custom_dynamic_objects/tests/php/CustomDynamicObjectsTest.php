@@ -164,7 +164,10 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 						[
 							'file' => 'media.json',
 							'properties' => [
-
+								[
+									'function'=>'increments',
+									'param'=>'id'
+								]
 							]
 						]
 					]
