@@ -72,12 +72,31 @@ class CustomDynamicObjects {
 	}
 
 	/**
+	 * @description Creates callback funton for eloquent/blueprint migration from given object type
+	 * @param  {Array} $objectType 
+	 * @return {Closure}
+	 */
+	private function getMigrateCallbackFuntionByObjectType($objectType){
+		$propertys = [
+			[
+				'function'=>'increments',
+				'param'=>'id'
+			]
+		];
+		return function(Blueprint $table) use ($propertys){	
+			foreach ($propertys as $column) {
+				$table->$column['function']($column['param']);
+			}
+		};
+	}
+
+	/**
 	 * @description Creates table for given objectType
 	 * @param  {Array} $objectType
 	 */
 	private function createTableByObjectType($objectType){
 		$tableName = $this->getTableNameByObjectType($objectType);
-		$callBack = function(){};
+		$callBack = $this->getMigrateCallbackFuntionByObjectType($objectType);
 		$this->capsule->schema()->create($tableName, $callBack);
 	}
 

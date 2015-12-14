@@ -12,6 +12,7 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 	protected $capsuleMock;
 
 	protected $builderMock;
+	protected $blueprintTableMock;
 
 	public function setUp(){
 		$this->jsonsMock = $this->getMockBuilder('CustomDynamicObjects\Jsons')
@@ -30,6 +31,11 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 		$this->builderMock = $this->getMockBuilder('Illuminate\Database\Schema\Builder')
 			->disableOriginalConstructor()
 			->setMethods(['create'])
+			->getMock();
+
+		$this->blueprintTableMock = $this->getMockBuilder('Illuminate\Database\Schema\Blueprint')
+			->disableOriginalConstructor()
+			->setMethods(['increments'])
 			->getMock();
 
 		$this->customDynamicObjects = new CustomDynamicObjects($this->wpConnectorMock, $this->jsonsMock, $this->capsuleMock);
@@ -141,7 +147,7 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
     		)
         	->will($this->returnValue(null));
 
-		$this->capsuleMock->expects($this->atLeastOnce())
+		$this->capsuleMock->expects($this->exactly(2))
               ->method('schema')
               ->will($this->returnValue($this->builderMock));
 
@@ -150,7 +156,43 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 
 	public function testMigrateTriggersSchemasCreateFunctionWithRightCallbackFunction(){
 
-		
+		$this->jsonsMock->expects($this->once())
+			->method('getObjectTypes')
+			->will(
+				$this->returnValue(
+					[
+						[
+							'file' => 'media.json',
+							'properties' => [
+
+							]
+						]
+					]
+				)
+			);
+
+		$this->blueprintTableMock->expects($this->once())
+			->method('increments')
+			->with(
+				$this->equalTo('id') 	
+			)
+			->will($this->returnValue(null));
+
+		$this->builderMock->expects($this->atLeastOnce())
+        	->method('create')
+    	 	->with(
+        		$this->anything(),
+        		$this->equalTo(function(){}) 		
+    		)
+        	->will($this->returnCallback(function($name, $callback){
+        		echo $callback($this->blueprintTableMock);
+        	}));
+
+		$this->capsuleMock->expects($this->atLeastOnce())
+              ->method('schema')
+              ->will($this->returnValue($this->builderMock));
+
+		$this->customDynamicObjects->migrate();
 
 	}
 
