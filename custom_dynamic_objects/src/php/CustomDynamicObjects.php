@@ -77,9 +77,9 @@ class CustomDynamicObjects {
 	 * @return {Closure}
 	 */
 	private function getMigrateCallbackFuntionByObjectType($objectType){
-		$propertys = empty($objectType['properties']) ? [] : $objectType['properties'];
-		return function(Blueprint $table) use ($propertys){	
-			foreach ($propertys as $column) {
+		$properties = empty($objectType['properties']) ? [] : $objectType['properties'];
+		return function(Blueprint $table) use ($properties){	
+			foreach ($properties as $column) {
 				$table->$column['function']($column['param']);
 			}
 		};
