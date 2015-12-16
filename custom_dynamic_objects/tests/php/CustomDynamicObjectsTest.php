@@ -35,7 +35,7 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 
 		$this->blueprintTableMock = $this->getMockBuilder('Illuminate\Database\Schema\Blueprint')
 			->disableOriginalConstructor()
-			->setMethods(['increments'])
+			->setMethods(['increments', 'string'])
 			->getMock();
 
 		$this->customDynamicObjects = new CustomDynamicObjects($this->wpConnectorMock, $this->jsonsMock, $this->capsuleMock);
@@ -164,9 +164,14 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 						[
 							'file' => 'media.json',
 							'properties' => [
+							]
+						],
+						[
+							'file' => 'test.json',
+							'properties' => [
 								[
-									'function'=>'increments',
-									'param'=>'id'
+									'function' => 'string',
+									'param' => 'subtitle'
 								]
 							]
 						]
@@ -174,12 +179,20 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
 				)
 			);
 
-		$this->blueprintTableMock->expects($this->once())
+		$this->blueprintTableMock->expects($this->exactly(2))
 			->method('increments')
 			->with(
 				$this->equalTo('id') 	
 			)
 			->will($this->returnValue(null));
+
+		$this->blueprintTableMock->expects($this->once())
+			->method('string')
+			->with(
+				$this->equalTo('subtitle')
+			)		
+			->will($this->returnValue(null));
+
 
 		$this->builderMock->expects($this->atLeastOnce())
         	->method('create')
@@ -191,7 +204,7 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
         		echo $callback($this->blueprintTableMock);
         	}));
 
-		$this->capsuleMock->expects($this->atLeastOnce())
+		$this->capsuleMock->expects($this->exactly(2))
               ->method('schema')
               ->will($this->returnValue($this->builderMock));
 
