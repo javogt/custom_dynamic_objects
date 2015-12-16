@@ -19,6 +19,11 @@ class CustomDynamicObjects
         $this->capsule = $capsule;
     }
     
+    public function addConnection($wpdb) {
+        $this->capsule->addConnection(['driver' => 'mysql', 'host' => $wpdb->dbhost, 'database' => $wpdb->dbname, 'username' => $wpdb->dbuser, 'password' => $wpdb->dbpassword, 'charset' => 'utf8', 'collation' => 'utf8_general_ci', 'prefix' => $wpdb->prefix]);
+        $this->capsule->setAsGlobal();
+    }
+    
     /**
      * @description Creates markup for backend meta box
      * @return {String} html for meta box
@@ -75,8 +80,9 @@ class CustomDynamicObjects
     private function getMigrateCallbackFuntionByObjectType($objectType) {
         $properties = empty($objectType['properties']) ? [] : $objectType['properties'];
         return function (Blueprint $table) use ($properties) {
-        	// Adding an incremental id to every table
-        	$table->increments('id');
+            
+            // Adding an incremental id to every table
+            $table->increments('id');
             foreach ($properties as $column) {
                 $table->$column['function']($column['param']);
             }
