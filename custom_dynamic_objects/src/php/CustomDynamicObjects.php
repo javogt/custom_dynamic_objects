@@ -19,7 +19,8 @@ class CustomDynamicObjects
         $this->capsule = $capsule;
     }
     
-    public function addConnection($wpdb) {
+    public function addConnection() {
+    	$wpdb = $this->wpConnector->getGlobalWpdb();
         $this->capsule->addConnection(['driver' => 'mysql', 'host' => $wpdb->dbhost, 'database' => $wpdb->dbname, 'username' => $wpdb->dbuser, 'password' => $wpdb->dbpassword, 'charset' => 'utf8', 'collation' => 'utf8_general_ci', 'prefix' => $wpdb->prefix]);
         $this->capsule->setAsGlobal();
     }

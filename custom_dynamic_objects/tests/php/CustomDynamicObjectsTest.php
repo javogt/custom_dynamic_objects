@@ -101,27 +101,27 @@ class CustomDynamicObjectsTest extends \PHPUnit_Framework_TestCase
         $this->customDynamicObjects->migrate();
     }
 
-    private function getWpdbMock(){
+    private function setWpdbMock(){
     	$wpdb = new stdClass();
         $wpdb->dbhost = 'testhost';
         $wpdb->dbname = 'testname';
         $wpdb->dbuser = 'testuser';
         $wpdb->dbpassword = 'testpassword';
         $wpdb->prefix = 'testprefix';
-    	return $wpdb;
+    	$GLOBALS['wpdb'] = $wpdb;
     }
     
     public function testAddCOnnectionAddsACapsulePdoConnection() {
         
         $this->capsuleMock->expects($this->once())->method('addConnection')->with($this->equalTo(['driver' => 'mysql', 'host' => 'testhost', 'database' => 'testname', 'username' => 'testuser', 'password' => 'testpassword', 'charset' => 'utf8', 'collation' => 'utf8_general_ci', 'prefix' => 'testprefix']));
-        
-        $this->customDynamicObjects->addConnection($this->getWpdbMock());
+        $this->setWpdbMock();
+        $this->customDynamicObjects->addConnection();
     }
     
     public function testAddCOnnectionCallsCapsuleSetAsGlobalFunction() {
         
         $this->capsuleMock->expects($this->once())->method('setAsGlobal');
-        
-        $this->customDynamicObjects->addConnection($this->getWpdbMock());
+        $this->setWpdbMock();
+        $this->customDynamicObjects->addConnection();
     }
 }

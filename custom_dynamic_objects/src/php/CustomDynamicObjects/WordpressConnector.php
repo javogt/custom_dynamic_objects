@@ -12,4 +12,9 @@ class WordpressConnector{
 		 add_meta_box( $id, $title, $callback, $screen, $context, $priority, $callback_args);
 	}
 
+	public function getGlobalWpdb(){
+		global $wpdb;
+		return $wpdb;
+	}
+
 }

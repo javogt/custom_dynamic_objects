@@ -14,8 +14,11 @@ class WordpressConnectorTest extends \PHPUnit_Framework_TestCase {
 
 	use \UnitTesting\FunctionSpy\SpyTrait;
 
+	private $wordpressConnector;
+
 	public function setUp(){
 		$this->initSpy();
+		$this->wordpressConnector = new WordpressConnector();
 	}
 
 	public function tearDown()
@@ -25,8 +28,7 @@ class WordpressConnectorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testAddActionCallsWpAddAction(){
 
-		$wordpressConnector = new WordpressConnector();
-		$wordpressConnector->add_action('foo', 'bar');
+		$this->wordpressConnector->add_action('foo', 'bar');
 
         $this->assertFunctionLastCalledWith('add_action', array('foo', 'bar', null, null));
 		
@@ -34,11 +36,16 @@ class WordpressConnectorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testAddMetaBoxCallsWpAddMetaBox(){
 
-		$wordpressConnector = new WordpressConnector();
-		$wordpressConnector->add_meta_box('foo', 'bar', 'baz');
+		$this->wordpressConnector->add_meta_box('foo', 'bar', 'baz');
 
         $this->assertFunctionLastCalledWith('add_meta_box', array('foo', 'bar', 'baz', null, null, null, null));
 		
+	}
+
+	public function testGetGlobalWpdbReturnsGlobalWpdbObject(){
+		$GLOBALS['wpdb'] = 'globalWpdbTest';
+		$result = $this->wordpressConnector->getGlobalWpdb();
+		$this->assertSame($result, $GLOBALS['wpdb']);
 	}
 
 }
