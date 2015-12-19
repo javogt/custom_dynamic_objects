@@ -20,7 +20,7 @@ use CustomDynamicObjects\Jsons;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema\Blueprint;
 
-$customDynamicObjects = new CustomDynamicObjects(new WordpressConnector() , new Jsons(__DIR__ . '/objects') , new Capsule());
+$customDynamicObjects = new CustomDynamicObjects(new WordpressConnector() , new Jsons(__DIR__ . '/customObjects') , new Capsule());
 
 global $wpdb;
 $customDynamicObjects->addConnection($wpdb);
