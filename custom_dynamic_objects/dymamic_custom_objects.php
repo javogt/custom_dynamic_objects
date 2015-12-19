@@ -6,8 +6,8 @@
  */
 
 /*
-Plugin Name: Custom Dynamic Objects
-Description: Plugin to creat custom dynamic objects
+Plugin Name: Dynamic Custom Objects
+Description: Plugin to create dynamic custom objects
 Author: Jakob Andreas Vogt
 Version: 0.0.0
 Author URI:
